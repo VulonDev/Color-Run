@@ -6,6 +6,11 @@ because literally nothing has even the most basic colors i havent tested it yet.
 probably like,,,, some of it works? but definitely at least one thing will break.
 i suspect the way im using delayedCall in Player.js might be a problem, but I can't check
 the Phaser docs to figure it out until i have internet again.
+
+(specifically, i suspect the problem with delayedCall will be to do with the 'this' statement at the end of
+the delayedcall. 'this' in the context i was copying it over from meant 'the play scene' since
+the models for delayedcall that i had were in the play scene. it might be possible to use
+this.scene in player.js to reference the scene the player sprite is in.)
 */
 
 let config = {
