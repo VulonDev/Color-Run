@@ -1,4 +1,4 @@
-class Obstacle extends Phaser.GameBojects.Sprite {
+class Obstacle extends Phaser.GameObjects.Sprite {
     constructor(scene, x, y, texture, frame, color) {
         super (scene, x, y, texture, frame);
         this.color = color;
