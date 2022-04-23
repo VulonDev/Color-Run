@@ -17,7 +17,14 @@ let config = {
     type: Phaser.AUTO,
     width: 640,
     height: 480,
-    scene: [Menu, Play]
+    scene: [Menu, Play],
+    physics: {
+        default: 'arcade',
+        arcade: {
+            gravity: { y: 300 },
+            debug: false
+        }
+    },
 }
 
 let game = new Phaser.Game(config);
@@ -30,13 +37,13 @@ let red = 3;
 let green = 4;
 
 //reserve keyboard
-let keyW, keyA, keyS, keyD, keySPACE;
+let keyW, keyA, keyS, keyD, keySPACE, keyLEFT, keyRIGHT, keyUP;
 
 //adjustable game settings. 
 //these are used in a bunch of different classes, and basically they're all her to be changed in one spot
 game.settings = {
-    obstacleSpeed: 3, //the speed of nonplayer objects scrolling across the screen
-    playerSpeed: 3, //THIS IS THE JUMP/FALL speed. the player does not move left and right.
+    obstacleSpeed: 160, //the speed of nonplayer objects scrolling across the screen
+    playerSpeed: 300, //THIS IS THE JUMP/FALL speed. the player does not move left and right.
     jumpTime: 1000, //how long the vertical portion of a players jump will last (milliseconds)
     pickupDuration: 1500, //how long the all-colors powerup item lasts (milliseconds)
     pickupPoints: 100, //how much the bonus points pickup item is worth

@@ -3,11 +3,27 @@ class Play extends Phaser.Scene {
         super("playScene");
     }
 
+    
     preload() {
+        this.load.image('ground', './assets/ground.png');
+        this.load.image('player_red', './assets/player_red.png');
+        this.load.image('player_blue', './assets/player_blue.png');
+        this.load.image('player_green', './assets/player_green.png');
 
     }
 
     create() {
+        //platform group for checking collisions
+        this.platforms = this.physics.add.staticGroup();
+
+        //test floor platform
+        this.platforms.create(320, 460, 'ground');
+
+        //player character
+        this.player = new Player(this, 320, 400, 'player_red', red)
+        //makes it so player collides with platforms
+        this.physics.add.collider(this.player, this.platforms);
+
         //game over flag
         this.gameOver = false;
 
@@ -17,6 +33,9 @@ class Play extends Phaser.Scene {
         keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
         keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+        keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
+        keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+        keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
 
         //init score
         this.score = 0;
@@ -26,9 +45,9 @@ class Play extends Phaser.Scene {
 
         //update currently living sprites while game isn't over
         if(!this.gameOver) {
-
+            this.player.update();
         }
-        //if the game isnt over, sprite update stops
+        //if the game is over, sprite update stops
         //now display game over screen and listen for restart
         else {
 
