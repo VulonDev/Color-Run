@@ -5,14 +5,20 @@ class Play extends Phaser.Scene {
 
     
     preload() {
+        this.load.image('background', './assets/background.png');
         this.load.image('ground', './assets/ground.png');
         this.load.image('player_red', './assets/player_red.png');
         this.load.image('player_blue', './assets/player_blue.png');
         this.load.image('player_green', './assets/player_green.png');
+        this.load.image('ob_red', './assets/obstacle_red.png');
         this.load.image('ob_green', './assets/obstacle_green.png');
+        this.load.image('ob_blue', './assets/obstacle_blue.png');
+        this.load.image('ob_black', './assets/obstacle_black.png');
     }
 
     create() {
+
+        this.background = this.add.tileSprite(0, 0, 640, 480, 'background').setOrigin(0, 0);
         
         //platform group for checking collisions
         this.platforms = this.physics.add.staticGroup();
@@ -21,19 +27,31 @@ class Play extends Phaser.Scene {
         this.platforms.create(320, 460, 'ground');
 
         //player character
-        this.player = new Player(this, 320, 400, 'player_red', 0, red)
+        this.player = new Player(this, 50, 410, 'player_red', 0, red)
         //makes it so player collides with platforms
         this.physics.add.collider(this.player, this.platforms);
 
         //game over flag (made gameover a global var so it can accessed by collider function)
         gameOver = false;
 
-        //test color obstacle
-        this.ob = new Obstacle(this, 400, 400, 'ob_green', 0, green);
-        this.ob.body.setAllowGravity(false);
-        this.ob.setPushable(false);
+        // obstacle group
+        this.ob1 = new Obstacle(this, 400, 410, 'ob_green', 0, green);
+        this.ob2 = new Obstacle(this, 520, 410, 'ob_blue', 0, blue);
+        this.ob3 = new Obstacle(this, 620, 410, 'ob_red', 0, red);
+        this.ob4 = new Obstacle(this, 720, 410, 'ob_black', 0, black);
+        this.obstacles = this.physics.add.group();
+        this.obstacles.add(this.ob1);
+        this.obstacles.add(this.ob2);
+        this.obstacles.add(this.ob3);
+        this.obstacles.add(this.ob4);
+        this.obstacles.getChildren().forEach(function (obstacle) {
+            obstacle.body.setAllowGravity(false);
+            obstacle.setPushable(false);
+        }, this);
+    
+        
         //checks if the test ob and player overlap, if so then it calls the function defined beneath it
-        this.physics.add.overlap(this.player, this.ob, function(objA, objB) {
+        this.physics.add.overlap(this.player, this.obstacles, function(objA, objB) {
             if(objA.color == white || objB.color == white ) {
                 //dont need to do anything
                 return;
@@ -81,8 +99,12 @@ class Play extends Phaser.Scene {
 
         //update currently living sprites while game isn't over
         if(!gameOver) {
+            this.background.tilePositionX += game.settings.obstacleSpeed;
             this.player.update();
-            this.ob.update();
+            this.ob1.update();
+            this.ob2.update();
+            this.ob3.update();
+            this.ob4.update();
         }
         //if the game is over, sprite update stops
         //now display game over screen and listen for restart
@@ -94,7 +116,7 @@ class Play extends Phaser.Scene {
                 this.scene.restart();
             }
             if(Phaser.Input.Keyboard.JustDown(keyW)) {
-                this.scene.restart("menuScene");
+                this.scene.start("menuScene");
             }
         }
 

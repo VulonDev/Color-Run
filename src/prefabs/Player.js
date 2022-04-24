@@ -12,13 +12,14 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
     update() {       
         //left/right movement (right now moves player but might move the obstacles/platforms instead later??)
-        if(keyLEFT.isDown) {
-            this.setVelocityX(-160);
-        } else if(keyRIGHT.isDown) {
-            this.setVelocityX(160);
-        } else {
-            this.setVelocityX(0);
-        }
+        // left/right dsabled for now (i dont think we want this in the final version?)
+        // if(keyLEFT.isDown) {
+            // this.setVelocityX(-160);
+        // } else if(keyRIGHT.isDown) {
+            // this.setVelocityX(160);
+        // } else {
+            // this.setVelocityX(0);
+        // }
 
         //jumping
         if (keyUP.isDown && this.body.touching.down) {
