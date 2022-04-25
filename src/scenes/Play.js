@@ -34,21 +34,10 @@ class Play extends Phaser.Scene {
         //game over flag (made gameover a global var so it can accessed by collider function)
         gameOver = false;
 
-        // obstacle group
-        this.ob1 = new Obstacle(this, 400, 410, 'ob_green', 0, green);
-        this.ob2 = new Obstacle(this, 520, 410, 'ob_blue', 0, blue);
-        this.ob3 = new Obstacle(this, 620, 410, 'ob_red', 0, red);
-        this.ob4 = new Obstacle(this, 720, 410, 'ob_black', 0, black);
+        //group for storing all current color obstacles on screen
         this.obstacles = this.physics.add.group();
-        this.obstacles.add(this.ob1);
-        this.obstacles.add(this.ob2);
-        this.obstacles.add(this.ob3);
-        this.obstacles.add(this.ob4);
-        this.obstacles.getChildren().forEach(function (obstacle) {
-            obstacle.body.setAllowGravity(false);
-            obstacle.setPushable(false);
-        }, this);
-    
+        //periodically spawns new obstacle
+        this.obstacleTimer = this.time.addEvent({ delay: 1000, callback: this.createObstacle, callbackScope: this, loop: true });
         
         //checks if the test ob and player overlap, if so then it calls the function defined beneath it
         this.physics.add.overlap(this.player, this.obstacles, function(objA, objB) {
@@ -101,16 +90,19 @@ class Play extends Phaser.Scene {
         if(!gameOver) {
             this.background.tilePositionX += game.settings.obstacleSpeed;
             this.player.update();
-            this.ob1.update();
-            this.ob2.update();
-            this.ob3.update();
-            this.ob4.update();
+            this.obstacles.getChildren().forEach(function (obstacle) {
+                obstacle.body.setAllowGravity(false);
+                obstacle.setPushable(false);
+                obstacle.update();
+            }, this);
         }
         //if the game is over, sprite update stops
         //now display game over screen and listen for restart
         else {
             //game over text
             this.gameOverText.text = 'GAME OVER \n SPACE to restart or W for menu';
+            //stop spawning new obstacles
+            this.obstacleTimer.remove();
             //SPACE to restart, W for menu
             if(Phaser.Input.Keyboard.JustDown(keySPACE)){
                 this.scene.restart();
@@ -120,5 +112,28 @@ class Play extends Phaser.Scene {
             }
         }
 
+    }
+
+    //creates a new object of random color and adds it to the obstacle group
+    createObstacle() {
+        this.type = Math.floor(Math.random() * 4);
+        console.log(this.type);
+        switch (this.type) {
+            case 0:
+                this.ob = new Obstacle(this, 720, 410, 'ob_red', 0, red);
+                break;
+            case 1:
+                this.ob = new Obstacle(this, 720, 410, 'ob_blue', 0, blue);
+                break;
+            case 2:
+                this.ob = new Obstacle(this, 720, 410, 'ob_green', 0, green);
+                break;
+            case 3:
+                this.ob = new Obstacle(this, 720, 410, 'ob_black', 0, black);
+                break;
+            default:
+                console.log('bad');
+        }
+        this.obstacles.add(this.ob);
     }
 }

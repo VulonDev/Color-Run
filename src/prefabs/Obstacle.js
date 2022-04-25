@@ -5,6 +5,8 @@ class Obstacle extends Phaser.Physics.Arcade.Sprite {
         this.moveSpeed = game.settings.obstacleSpeed;
         scene.add.existing(this);
         scene.physics.add.existing(this);
+        this.body.setAllowGravity(false);
+        this.setPushable(false);
         //slide obstacles across the screen right -> left
     }
 
