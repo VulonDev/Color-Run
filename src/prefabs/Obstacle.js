@@ -15,8 +15,7 @@ class Obstacle extends Phaser.Physics.Arcade.Sprite {
         this.x -= this.moveSpeed;
         //if an obstacle exits the left side of the screen, destroy it
         if(this.x <= 0 - this.width) {
-            this.x = game.config.width + this.width;     //included for playtest version 
-            // this.destroy();                           // removed for playtest version
+            this.destroy();      
         } 
     }
 }
