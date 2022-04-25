@@ -36,6 +36,7 @@ class Play extends Phaser.Scene {
 
         //group for storing all current color obstacles on screen
         this.obstacles = this.physics.add.group();
+        this.physics.add.collider(this.obstacles, this.platforms);
         //periodically spawns new obstacle
         this.obstacleTimer = this.time.addEvent({ delay: 1000, callback: this.createObstacle, callbackScope: this, loop: true });
         
@@ -118,16 +119,16 @@ class Play extends Phaser.Scene {
         console.log(this.type);
         switch (this.type) {
             case 0:
-                this.obstacles.add(new Obstacle(this, 720, 420, 'ob_red', 0, red));
+                this.obstacles.add(new Obstacle(this, 720, 410, 'ob_red', 0, red));
                 break;
             case 1:
-                this.obstacles.add(new Obstacle(this, 720, 420, 'ob_blue', 0, blue));
+                this.obstacles.add(new Obstacle(this, 720, 410, 'ob_blue', 0, blue));
                 break;
             case 2:
-                this.obstacles.add(new Obstacle(this, 720, 420, 'ob_green', 0, green));
+                this.obstacles.add(new Obstacle(this, 720, 410, 'ob_green', 0, green));
                 break;
             case 3:
-                this.obstacles.add(new Obstacle(this, 720, 420, 'ob_black', 0, black));
+                this.obstacles.add(new Obstacle(this, 720, 410, 'ob_black', 0, black));
                 break;
             default:
                 console.log('bad');
