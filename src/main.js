@@ -21,7 +21,7 @@ let config = {
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: { y: 400 },
+            gravity: { y: 600 },
             debug: false
         }
     },
@@ -46,7 +46,6 @@ let keyW, keyA, keyS, keyD, keySPACE, keyLEFT, keyRIGHT, keyUP;
 game.settings = {
     obstacleSpeed: 1, //the speed of nonplayer objects scrolling across the screen
     playerSpeed: 300, //THIS IS THE JUMP/FALL speed. the player does not move left and right.
-    gravity: 500,
     jumpTime: 1000, //how long the vertical portion of a players jump will last (milliseconds)
     pickupDuration: 1500, //how long the all-colors powerup item lasts (milliseconds)
     pickupPoints: 100, //how much the bonus points pickup item is worth

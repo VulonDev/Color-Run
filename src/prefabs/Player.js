@@ -23,7 +23,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
         //jumping
         if (keyUP.isDown && this.body.touching.down) {
-            this.setVelocityY(-330);
+            this.setVelocityY(-280);
         }
 
         //handle using ColorsItem
