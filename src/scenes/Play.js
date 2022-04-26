@@ -121,6 +121,8 @@ class Play extends Phaser.Scene {
         else {
             //game over text
             this.gameOverText.text = 'GAME OVER \n SPACE to restart or W for menu';
+            //stop increasing score
+            this.scoreIncreaseEvent.remove();
             //stop spawning new obstacles
             this.obstacleTimer.remove();
             //SPACE to restart, W for menu
