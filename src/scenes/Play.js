@@ -19,6 +19,27 @@ class Play extends Phaser.Scene {
     create() {
 
         this.background = this.add.tileSprite(0, 0, 640, 480, 'background').setOrigin(0, 0);
+
+        // player score
+        this.score = 0;
+
+        // score display
+        let scoreConfig = {
+            fontFamily: 'Impact',
+            fontSize: '22px',
+            color: '#FFFFBB',
+            align: 'left',
+            padding: {
+            top: 5,
+            bottom: 5,
+            },
+            fixedWidth: 500
+
+        }
+        this.scoreText = this.add.text(10, 10, "Score: "+(this.score.toString()), this.scoreConfig);
+
+        // delayed call score increase - increases score by 10 every second
+        this.scoreIncreaseEvent = this.time.addEvent({ delay: 1000, callback: this.increaseScore, callbackScope: this, loop: true });
         
         //platform group for checking collisions
         this.platforms = this.physics.add.staticGroup();
@@ -111,6 +132,13 @@ class Play extends Phaser.Scene {
             }
         }
 
+    }
+
+
+    //increases score by 10 and updates it on the screen
+    increaseScore() {
+        this.score += 10;
+        this.scoreText.text = "Score: "+(this.score.toString());
     }
 
     //creates a new object of random color and adds it to the obstacle group
