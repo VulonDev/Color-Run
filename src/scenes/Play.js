@@ -111,13 +111,7 @@ class Play extends Phaser.Scene {
 
         //checks if player is picking up a points item
         this.physics.add.overlap(this.player, this.pointItems, function(player, item) {
-            if(player.color == white) {
-                //white is always valid, pickup success
-                item.destroy();
-                score += 50;
-                scoreText.text = "Score: "+(this.score.toString());
-            }
-            else if (item.color == player.color) {
+            if (item.color == player.color || player.color == white) {
                 item.destroy();
                 collectPoint = true;
             }
