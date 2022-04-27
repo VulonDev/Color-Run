@@ -10,10 +10,15 @@ class Play extends Phaser.Scene {
         this.load.image('player_red', './assets/player_red.png');
         this.load.image('player_blue', './assets/player_blue.png');
         this.load.image('player_green', './assets/player_green.png');
+        this.load.image('player_rainbow', './assets/player_rainbow.png');
         this.load.image('ob_red', './assets/obstacle_red.png');
         this.load.image('ob_green', './assets/obstacle_green.png');
         this.load.image('ob_blue', './assets/obstacle_blue.png');
         this.load.image('ob_black', './assets/obstacle_black.png');
+        this.load.image('pt_blue', './assets/points_blue.png');
+        this.load.image('pt_red', './assets/points_red.png');
+        this.load.image('pt_green', './assets/points_green.png');
+        this.load.image('color_item', './assets/item_color.png');
     }
 
     create() {
@@ -55,11 +60,22 @@ class Play extends Phaser.Scene {
         //game over flag (made gameover a global var so it can accessed by collider function)
         gameOver = false;
 
+        //jerry-rigged hack to try and get collecting point items to work
+        collectPoint = false;
+
         //group for storing all current color obstacles on screen
         this.obstacles = this.physics.add.group();
         this.physics.add.collider(this.obstacles, this.platforms);
+        //group for storing all current point items on screen
+        this.pointItems = this.physics.add.group();
+        //group for storing all current color items on screen
+        this.colorItems = this.physics.add.group();
         //periodically spawns new obstacle
-        this.obstacleTimer = this.time.addEvent({ delay: 1000, callback: this.createObstacle, callbackScope: this, loop: true });
+        this.obstacleTimer = this.time.addEvent({ delay: game.settings.spawnSpeed, callback: this.createObstacle, callbackScope: this, loop: true });
+        //periodically has a chance of spawning a color item
+        this.colorTimer = this.time.addEvent({ delay: game.settings.spawnSpeed, callback: this.createColorsItem, callbackScope: this, loop: true });
+        //periodically has a chance to spawn a points item
+        this.pointsTimer = this.time.addEvent({ delay: game.settings.spawnSpeed, callback: this.createPointsItem, callbackScope: this, loop: true });
         
         //checks if the test ob and player overlap, if so then it calls the function defined beneath it
         this.physics.add.overlap(this.player, this.obstacles, function(objA, objB) {
@@ -74,6 +90,23 @@ class Play extends Phaser.Scene {
             else {
                 //colors were diff so set gameover = true
                 gameOver = true;
+            }
+        });
+
+        //checks if player is picking up a points item
+        this.physics.add.overlap(this.player, this.pointItems, function(player, item) {
+            if(player.color == white) {
+                //white is always valid, pickup success
+                item.destroy();
+                score += 50;
+                scoreText.text = "Score: "+(this.score.toString());
+            }
+            else if (item.color == player.color) {
+                item.destroy();
+                collectPoint = true;
+            }
+            else {
+                return;
             }
         });
 
@@ -115,6 +148,17 @@ class Play extends Phaser.Scene {
             this.obstacles.getChildren().forEach(function (obstacle) {
                 obstacle.update();
             }, this);
+            this.pointItems.getChildren().forEach(function(item){
+                item.update();
+            }, this);
+            this.colorItems.getChildren().forEach(function(item){
+                item.update();
+            }, this);
+            if(collectPoint) {
+                this.score += 50;
+                this.scoreText.text = "Score: " + this.score.toString();
+                collectPoint = false;
+            }
         }
         //if the game is over, sprite update stops
         //now display game over screen and listen for restart
@@ -142,11 +186,16 @@ class Play extends Phaser.Scene {
         this.score += 10;
         this.scoreText.text = "Score: "+(this.score.toString());
     }
+    //increases and updates score when point item is picked up
+    collectPointItem() {
+        this.score += 50;
+        this.scoreText.text = "Score: "+(this.score.toString());
+    }
 
     //creates a new object of random color and adds it to the obstacle group
     createObstacle() {
         this.type = Math.floor(Math.random() * 4);
-        console.log(this.type);
+       // console.log(this.type);
         switch (this.type) {
             case 0:
                 this.obstacles.add(new Obstacle(this, 720, 410, 'ob_red', 0, red));
@@ -161,7 +210,43 @@ class Play extends Phaser.Scene {
                 this.obstacles.add(new Obstacle(this, 720, 410, 'ob_black', 0, black));
                 break;
             default:
-                console.log('bad');
+                console.log('create obstacle failure');
         }
     }
+
+    //create a new points pickup item and add it to the points item group
+    createPointsItem() {
+        this.doSpawn = Math.floor(Math.random() * game.settings.pointSpawnChance);
+
+        if(this.doSpawn == 0) {
+            this.type = Math.floor(Math.random() * 3);
+            switch (this.type) {
+                case 0:
+                    this.pointItems.add(new PointsItem(this, 720, 350, 'pt_green', 0, green));
+                    break;
+                case 1:
+                    this.pointItems.add(new PointsItem(this, 720, 350, 'pt_blue', 0, blue));
+                    break;
+                case 2:
+                    this.pointItems.add(new PointsItem(this, 720, 350, 'pt_red', 0, red));
+                    break;
+                default:
+                    console.log("create points item failure");
+            }
+            
+        }
+
+
+    }
+
+    //create all colors item and add it to the color items group
+    createColorsItem() {
+        this.doSpawn = Math.floor(Math.random() * game.settings.colorSpawnChance);
+
+        if(this.doSpawn == 0) {
+            this.colorItems.add(new ColorsItem(this, 700, 300, 'color_item', 0, white));
+        }
+    }
+
+
 }
