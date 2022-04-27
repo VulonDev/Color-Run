@@ -63,6 +63,10 @@ class Play extends Phaser.Scene {
         //jerry-rigged hack to try and get collecting point items to work
         collectPoint = false;
 
+        //spawn an image to be the icon if a player has a pickup item
+
+        this.colorItemIcon = new ColorIcon(this, 20, 50, 'color_item', 0);
+
         //group for storing all current color obstacles on screen
         this.obstacles = this.physics.add.group();
         this.physics.add.collider(this.obstacles, this.platforms);
@@ -90,6 +94,18 @@ class Play extends Phaser.Scene {
             else {
                 //colors were diff so set gameover = true
                 gameOver = true;
+            }
+        });
+
+        //checks if player is picking up a color item
+
+        this.physics.add.overlap(this.player, this.colorItems, function(player, item) {
+            if(player.hasPickup) {
+                return;
+            }
+            else {
+                item.destroy();
+                player.hasPickup = true;
             }
         });
 
@@ -144,6 +160,7 @@ class Play extends Phaser.Scene {
         //update currently living sprites while game isn't over
         if(!gameOver) {
             this.background.tilePositionX += game.settings.obstacleSpeed;
+            this.colorItemIcon.update();
             this.player.update();
             this.obstacles.getChildren().forEach(function (obstacle) {
                 obstacle.update();
@@ -155,9 +172,15 @@ class Play extends Phaser.Scene {
                 item.update();
             }, this);
             if(collectPoint) {
-                this.score += 50;
+                this.score += game.settings.pickupPoints;
                 this.scoreText.text = "Score: " + this.score.toString();
                 collectPoint = false;
+            }
+            if(this.player.hasPickup) {
+                this.colorItemIcon.setAlpha(1);
+            }
+            else{
+               this.colorItemIcon.setAlpha(0);
             }
         }
         //if the game is over, sprite update stops
@@ -262,7 +285,8 @@ class Play extends Phaser.Scene {
         this.doSpawn = Math.floor(Math.random() * game.settings.colorSpawnChance);
 
         if(this.doSpawn == 0) {
-            this.colorItems.add(new ColorsItem(this, 700, 300, 'color_item', 0, white));
+            console.log("spawning color item");
+            this.colorItems.add(new ColorsItem(this, 600, 420, 'color_item', 0, white));
         }
     }
 

@@ -4,10 +4,10 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         scene.add.existing(this);
         scene.physics.add.existing(this);
         this.color = color;
-        this.hasPickup = false;
         this.moveSpeed = game.settings.playerSpeed;
         this.jumpTime = game.settings.jumpTime;
         this.pickupDuration = game.settings.pickupDuration; 
+        this.hasPickup = false;
     }
 
     update() {       

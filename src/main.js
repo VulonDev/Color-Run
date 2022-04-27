@@ -49,7 +49,7 @@ game.settings = {
     playerSpeed: 300, //THIS IS THE JUMP/FALL speed. the player does not move left and right.
     jumpTime: 1000, //how long the vertical portion of a players jump will last (milliseconds)
     pickupDuration: 1500, //how long the all-colors powerup item lasts (milliseconds)
-    pickupPoints: 100, //how much the bonus points pickup item is worth
+    pickupPoints: 50, //how much the bonus points pickup item is worth
     pointSpawnChance: 2, //the probablity that a points item will spawn, where spawn chance is 1/pointSpawnChance
     colorSpawnChance: 3, //see above but for allcolors item
     spawnSpeed: 1250, //how quickly new obstacles/items generate (milliseconds)
