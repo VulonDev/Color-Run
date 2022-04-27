@@ -31,17 +31,17 @@ class Play extends Phaser.Scene {
         // score display
         let scoreConfig = {
             fontFamily: 'Impact',
-            fontSize: '22px',
-            color: '#FFFFBB',
+            fontSize: '16px',
+            color: '#000000',
             align: 'left',
             padding: {
             top: 5,
             bottom: 5,
             },
             fixedWidth: 500
-
         }
-        this.scoreText = this.add.text(10, 10, "Score: "+(this.score.toString()), this.scoreConfig);
+        this.scoreText = this.add.text(10, 10, "Score: 0", scoreConfig);
+
 
         // delayed call score increase - increases score by 10 every second
         this.scoreIncreaseEvent = this.time.addEvent({ delay: 1000, callback: this.increaseScore, callbackScope: this, loop: true });
@@ -53,7 +53,7 @@ class Play extends Phaser.Scene {
         this.platforms.create(320, 460, 'ground');
 
         //player character
-        this.player = new Player(this, 50, 410, 'player_red', 0, red)
+        this.player = new Player(this, 100, 410, 'player_red', 0, red)
         //makes it so player collides with platforms
         this.physics.add.collider(this.player, this.platforms);
 
@@ -217,18 +217,36 @@ class Play extends Phaser.Scene {
     //create a new points pickup item and add it to the points item group
     createPointsItem() {
         this.doSpawn = Math.floor(Math.random() * game.settings.pointSpawnChance);
+        let x = 720;
+        let y = 350;
+        this.doLocation = Math.floor(Math.random() * 3);
+
+        switch(this.doLocation) {
+            case 0:
+                break;
+            case 1:
+                x = 675;
+                y = 395;
+                break;
+            case 2:
+                x = 800;
+                y = 420;
+                break;
+            default:
+                console.log("create points item failure in spawn location");
+        }
 
         if(this.doSpawn == 0) {
             this.type = Math.floor(Math.random() * 3);
             switch (this.type) {
                 case 0:
-                    this.pointItems.add(new PointsItem(this, 720, 350, 'pt_green', 0, green));
+                    this.pointItems.add(new PointsItem(this, x, y, 'pt_green', 0, green));
                     break;
                 case 1:
-                    this.pointItems.add(new PointsItem(this, 720, 350, 'pt_blue', 0, blue));
+                    this.pointItems.add(new PointsItem(this, x, y, 'pt_blue', 0, blue));
                     break;
                 case 2:
-                    this.pointItems.add(new PointsItem(this, 720, 350, 'pt_red', 0, red));
+                    this.pointItems.add(new PointsItem(this, x, y, 'pt_red', 0, red));
                     break;
                 default:
                     console.log("create points item failure");

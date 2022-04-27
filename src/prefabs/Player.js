@@ -23,7 +23,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
         //jumping
         if (Phaser.Input.Keyboard.JustDown(keySPACE) && this.body.touching.down) {
-            this.setVelocityY(-280);
+            this.setVelocityY(-300);
         }
 
         //handle using ColorsItem
@@ -37,7 +37,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         }
 
         //handle swapping colors
-        if(Phaser.Input.Keyboard.JustDown(keyA) && this.color != blue) {
+        if(Phaser.Input.Keyboard.JustDown(keyD) && this.color != blue) {
             this.color = blue;
             this.setTexture('player_blue');
         }
@@ -45,7 +45,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             this.color = green;
             this.setTexture('player_green');
         }
-        if(Phaser.Input.Keyboard.JustDown(keyD) && this.color != red) {
+        if(Phaser.Input.Keyboard.JustDown(keyA) && this.color != red) {
             this.color = red;
             this.setTexture('player_red');
         }
