@@ -186,6 +186,9 @@ class Play extends Phaser.Scene {
             this.scoreIncreaseEvent.remove();
             //stop spawning new obstacles
             this.obstacleTimer.remove();
+            //stop spawing new collectibles
+            this.colorTimer.remove();
+            this.pointsTimer.remove();
             //SPACE to restart, W for menu
             if(Phaser.Input.Keyboard.JustDown(keySPACE)){
                 this.scene.restart();
