@@ -12,9 +12,13 @@ class Play extends Phaser.Scene {
         this.load.image('player_green', './assets/player_green.png');
         this.load.image('player_rainbow', './assets/player_rainbow.png');
         this.load.image('ob_red', './assets/obstacle_red.png');
+        this.load.image('ob_red_h', './assets/obstacle_red_horiz.png');
         this.load.image('ob_green', './assets/obstacle_green.png');
+        this.load.image('ob_green_h', './assets/obstacle_green_horiz.png');
         this.load.image('ob_blue', './assets/obstacle_blue.png');
+        this.load.image('ob_blue_h', './assets/obstacle_blue_horiz.png');
         this.load.image('ob_black', './assets/obstacle_black.png');
+        this.load.image('ob_black_h', './assets/obstacle_black_horiz.png');
         this.load.image('pt_blue', './assets/points_blue.png');
         this.load.image('pt_red', './assets/points_red.png');
         this.load.image('pt_green', './assets/points_green.png');
@@ -23,6 +27,7 @@ class Play extends Phaser.Scene {
 
     create() {
 
+        // scrolling tile sprite background
         this.background = this.add.tileSprite(0, 0, 640, 480, 'background').setOrigin(0, 0);
 
         // player score
@@ -216,7 +221,7 @@ class Play extends Phaser.Scene {
     }
 
     //creates a new object of random color and adds it to the obstacle group
-    createObstacle(x, y) {
+    createVerticalObstacle(x, y) {
         this.type = Math.floor(Math.random() * 3);
        // console.log(this.type);
         switch (this.type) {
@@ -233,7 +238,27 @@ class Play extends Phaser.Scene {
                 //this.obstacles.add(new Obstacle(this, x, y, 'ob_black', 0, black));
                 //break;
             default:
-                console.log('create obstacle failure');
+                console.log('create vertical obstacle failure');
+        }
+    }
+    createHorizObstacle(x, y) {
+        this.type = Math.floor(Math.random() * 3);
+       // console.log(this.type);
+        switch (this.type) {
+            case 0:
+                this.obstacles.add(new Obstacle(this, x, y, 'ob_red_h', 0, red));
+                break;
+            case 1:
+                this.obstacles.add(new Obstacle(this, x, y, 'ob_blue_h', 0, blue));
+                break;
+            case 2:
+                this.obstacles.add(new Obstacle(this, x, y, 'ob_green_h', 0, green));
+                break;
+            //case 3:
+                //this.obstacles.add(new Obstacle(this, x, y, 'ob_black_h', 0, black));
+                //break;
+            default:
+                console.log('create horizontal obstacle failure');
         }
     }
 
@@ -292,15 +317,24 @@ class Play extends Phaser.Scene {
 
     // obstacle layout functions 
     createObstacleLayout0() {
-        this.createObstacle(720, 412);
-        this.createObstacle(925, 412);
-        this.createObstacle(1130, 412);
+        this.createVerticalObstacle(720, 412);
+        this.createVerticalObstacle(925, 412);
+        this.createVerticalObstacle(1130, 412);
     }
 
     createObstacleLayout1() {
-        this.createObstacle(720, 412);
+        this.createVerticalObstacle(720, 412);
         this.obstacles.add(new Obstacle(this, 925, 412, 'ob_black', 0, black));
-        this.createObstacle(1130, 412);
+        this.createVerticalObstacle(1130, 412);
+    }
+
+    createObstacleLayout2() {
+    }
+
+    createObstacleLayout3() {
+    }
+
+    createObstacleLayout4(){
     }
 
     // call random obstacle layout function
@@ -314,6 +348,15 @@ class Play extends Phaser.Scene {
             case 1:
                 this.createObstacleLayout1();
                 break;
+            //case 2:
+                //this.createObstacleLayout2();
+                //break;
+            //case 3:
+                //this.createObstacleLayout3();
+                //break;
+            //case 4:
+                    //this.createObstacleLayout4();
+                    //break;
             default:
                 console.log('create obstacle layout failure');
         }
