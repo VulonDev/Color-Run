@@ -392,7 +392,7 @@ class Play extends Phaser.Scene {
                     this.createObstacleLayout4();
                     break;
             case 5:
-                this.createObstacleLayouyt5();
+                this.createObstacleLayout5();
                 break;
             default:
                 console.log('create obstacle layout failure');
