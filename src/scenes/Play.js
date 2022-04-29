@@ -82,13 +82,16 @@ class Play extends Phaser.Scene {
         this.colorItems = this.physics.add.group();
 
         //periodically spawns new obstacle
-        this.obstacleTimer = this.time.addEvent({ delay: 5000, callback: this.createObstacleLayout, callbackScope: this, loop: true });
+        this.obstacleTimer = this.time.addEvent({ delay: game.settings.spawnSpeed *4, callback: this.createObstacleLayout, callbackScope: this, loop: true });
 
         //periodically has a chance of spawning a color item
         this.colorTimer = this.time.addEvent({ delay: game.settings.spawnSpeed, callback: this.createColorsItem, callbackScope: this, loop: true });
 
         //periodically has a chance to spawn a points item
         this.pointsTimer = this.time.addEvent({ delay: game.settings.spawnSpeed, callback: this.createPointsItem, callbackScope: this, loop: true });
+
+        //periodically increases the game speed/difficulty
+        this.difficultyIncreaseEvent = this.time.addEvent ({ delay: game.settings.difficultySpeed, callback: this.increaseScore, callbackScope: this, loop: true});
         
         //checks if the test ob and player overlap, if so then it calls the function defined beneath it
         this.physics.add.overlap(this.player, this.obstacles, function(objA, objB) {
@@ -218,7 +221,14 @@ class Play extends Phaser.Scene {
 
     }
 
-
+    //increase game speed over time to add difficulty scaling
+    increaseSpeed() {
+        if(game.settings.spawnSpeed > 750) {
+            game.settings.obstacleSpeed += 0.05;
+            game.settings.spawnSpeed -= 50;
+            game.settings.pickupDuration -= 50;
+        }
+    }
     //increases score by 10 and updates it on the screen
     increaseScore() {
         this.score += 10;
