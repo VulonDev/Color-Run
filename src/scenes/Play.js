@@ -106,6 +106,16 @@ class Play extends Phaser.Scene {
             }
         });
 
+        // ensures that no color items spawn inside of any obstacles
+        this.physics.add.overlap(this.colorItems, this.obstacles, function(item, ob) {
+            item.destroy();
+        });
+
+        // ensures that no point items spawn inside of any obstacles
+        this.physics.add.overlap(this.pointItems, this.obstacles, function(item, ob) {
+            item.destroy();
+        });
+
         //checks if player is picking up a color item
         this.physics.add.overlap(this.player, this.colorItems, function(player, item) {
             if(player.hasPickup) {
@@ -329,18 +339,42 @@ class Play extends Phaser.Scene {
     }
 
     createObstacleLayout2() {
+        this.createVerticalObstacle(720, 412);
+        this.createVerticalObstacle(720, 362);
+        this.createHorizObstacle(760, 433);
+        this.createHorizObstacle(830, 433);
     }
 
     createObstacleLayout3() {
+        this.createVerticalObstacle(720, 412);
+        this.createVerticalObstacle(720, 362);
+        this.createVerticalObstacle(925, 412);
+        this.createVerticalObstacle(925, 362);
+        this.createVerticalObstacle(1130, 412);
+        this.createVerticalObstacle(1130, 362);
     }
 
     createObstacleLayout4(){
+        this.createVerticalObstacle(720, 412);
+        this.obstacles.add(new Obstacle(this, 720, 362, 'ob_black', 0, black));
+        this.createVerticalObstacle(925, 412);
+        this.obstacles.add(new Obstacle(this, 925, 362, 'ob_black', 0, black));
+        this.createVerticalObstacle(1130, 412);
+        this.obstacles.add(new Obstacle(this, 1130, 362, 'ob_black', 0, black));
+    }
+
+    createObstacleLayout5(){
+        this.obstacles.add(new Obstacle(this, 720, 412, 'ob_black', 0, black));
+        this.createVerticalObstacle(720, 362);
+        this.obstacles.add(new Obstacle(this, 925, 412, 'ob_black', 0, black));
+        this.createVerticalObstacle(925, 362);
+        this.obstacles.add(new Obstacle(this, 1130, 412, 'ob_black', 0, black));
+        this.createVerticalObstacle(1130, 362);
     }
 
     // call random obstacle layout function
     createObstacleLayout() {
-        this.type = Math.floor(Math.random() * 2);
-       // console.log(this.type);
+        this.type = Math.floor(Math.random() * 6);
         switch (this.type) {
             case 0:
                 this.createObstacleLayout0();
@@ -348,15 +382,18 @@ class Play extends Phaser.Scene {
             case 1:
                 this.createObstacleLayout1();
                 break;
-            //case 2:
-                //this.createObstacleLayout2();
-                //break;
-            //case 3:
-                //this.createObstacleLayout3();
-                //break;
-            //case 4:
-                    //this.createObstacleLayout4();
-                    //break;
+            case 2:
+                this.createObstacleLayout2();
+                break;
+            case 3:
+                this.createObstacleLayout3();
+                break;
+            case 4:
+                    this.createObstacleLayout4();
+                    break;
+            case 5:
+                this.createObstacleLayouyt5();
+                break;
             default:
                 console.log('create obstacle layout failure');
         }

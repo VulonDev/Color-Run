@@ -5,7 +5,6 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         scene.physics.add.existing(this);
         this.color = color;
         this.moveSpeed = game.settings.playerSpeed;
-        this.jumpTime = game.settings.jumpTime;
         this.pickupDuration = game.settings.pickupDuration; 
         this.hasPickup = false;
     }
@@ -23,7 +22,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
         //jumping
         if (Phaser.Input.Keyboard.JustDown(keySPACE) && this.body.touching.down) {
-            this.setVelocityY(-300);
+            this.setVelocityY(this.moveSpeed);
         }
 
         //handle using ColorsItem
