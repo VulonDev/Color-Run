@@ -376,8 +376,8 @@ class Play extends Phaser.Scene {
     createObstacleLayout5(){
         this.obstacles.add(new Obstacle(this, 720, 412, 'ob_black', 0, black));
         this.createVerticalObstacle(720, 362);
-        this.obstacles.add(new Obstacle(this, 925, 412, 'ob_black', 0, black));
-        this.createVerticalObstacle(925, 362);
+        this.createVerticalObstacle(925, 412);
+        this.obstacles.add(new Obstacle(this, 925, 362, 'ob_black', 0, black));
         this.obstacles.add(new Obstacle(this, 1130, 412, 'ob_black', 0, black));
         this.createVerticalObstacle(1130, 362);
     }
