@@ -91,7 +91,7 @@ class Play extends Phaser.Scene {
         this.pointsTimer = this.time.addEvent({ delay: game.settings.spawnSpeed, callback: this.createPointsItem, callbackScope: this, loop: true });
 
         //periodically increases the game speed/difficulty
-        this.difficultyIncreaseEvent = this.time.addEvent ({ delay: game.settings.difficultySpeed, callback: this.increaseScore, callbackScope: this, loop: true});
+        this.difficultyIncreaseEvent = this.time.addEvent ({ delay: game.settings.difficultySpeed, callback: this.increaseSpeed, callbackScope: this, loop: true});
         
         //checks if the test ob and player overlap, if so then it calls the function defined beneath it
         this.physics.add.overlap(this.player, this.obstacles, function(objA, objB) {
@@ -210,6 +210,8 @@ class Play extends Phaser.Scene {
             //stop spawing new collectibles
             this.colorTimer.remove();
             this.pointsTimer.remove();
+            // stop increasing speed
+            this.difficultyIncreaseEvent.remove();
             //SPACE to restart, W for menu
             if(Phaser.Input.Keyboard.JustDown(keySPACE)){
                 this.scene.restart();
