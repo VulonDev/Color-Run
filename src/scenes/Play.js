@@ -488,8 +488,8 @@ class Play extends Phaser.Scene {
                 this.createObstacleLayout3();
                 break;
             case 4:
-                    this.createObstacleLayout4();
-                    break;
+                this.createObstacleLayout4();
+                break;
             case 5:
                 this.createObstacleLayout5();
                 break;
