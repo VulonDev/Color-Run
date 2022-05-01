@@ -7,10 +7,11 @@ class Play extends Phaser.Scene {
     preload() {
         this.load.image('background', './assets/background.png');
         this.load.image('ground', './assets/ground.png');
-        this.load.image('player_red', './assets/player_red.png');
+        // this.load.image('player_red', './assets/player_red.png');
         this.load.image('player_blue', './assets/player_blue.png');
         this.load.image('player_green', './assets/player_green.png');
-        this.load.image('player_rainbow', './assets/player_rainbow.png');
+        this.load.image('player_rainbow', './assets/player_rainbow .png');
+        this.load.image('player', './assets/player.png');
         this.load.image('ob_red', './assets/obstacle_red.png');
         this.load.image('ob_red_h', './assets/obstacle_red_horiz.png');
         this.load.image('ob_green', './assets/obstacle_green.png');
@@ -23,6 +24,12 @@ class Play extends Phaser.Scene {
         this.load.image('pt_red', './assets/points_red.png');
         this.load.image('pt_green', './assets/points_green.png');
         this.load.image('color_item', './assets/item_color.png');
+
+        // load sprite sheet animations
+        this.load.spritesheet('player_red_walk', './assets/player_red.png', {frameWidth: 35, frameHeight: 35, startFrame: 0, endFrame: 1});
+        this.load.spritesheet('player_green_walk', './assets/player_green.png', {frameWidth: 35, frameHeight: 35, startFrame: 0, endFrame: 1});
+        this.load.spritesheet('player_blue_walk', './assets/player_blue.png', {frameWidth: 35, frameHeight: 35, startFrame: 0, endFrame: 1});
+        this.load.spritesheet('player_rainbow_glow', './assets/player_rainbow .png', {frameWidth: 40, frameHeight: 40, startFrame: 0, endFrame: 2});
     }
 
     create() {
@@ -58,7 +65,43 @@ class Play extends Phaser.Scene {
         this.platforms.create(320, 460, 'ground');
 
         //player character
-        this.player = new Player(this, 100, 410, 'player_red', 0, red)
+        this.player = new Player(this, 100, 400, 'player', 0, red).setOrigin(0, 0);
+        this.player.alpha = 0;
+        // create animations
+        this.anims.create({
+            key: 'red_walk',
+            frames: this.anims.generateFrameNumbers('player_red_walk', {start: 0, end: 1, first: 0}),
+            frameRate: 8,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'green_walk',
+            frames: this.anims.generateFrameNumbers('player_green_walk', {start: 0, end: 1, first: 0}),
+            frameRate: 8,
+            repeat: -1
+        });       
+        this.anims.create({
+            key: 'blue_walk',
+            frames: this.anims.generateFrameNumbers('player_blue_walk', {start: 0, end: 1, first: 0}),
+            frameRate: 8,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'rainbow_glow',
+            frames: this.anims.generateFrameNumbers('player_rainbow_glow', {start: 0, end: 2, first: 0}),
+            frameRate: 8,
+            repeat: -1
+        }); 
+        // create animation sprites
+        this.red_anim = this.add.sprite(this.player.x, this.player.y, 'player_red_walk').setOrigin(0, 0);
+        this.red_anim.play('red_walk');
+        this.green_anim = this.add.sprite(this.player.x, this.player.y, 'player_green_walk').setOrigin(0, 0);
+        this.green_anim.play('green_walk');
+        this.blue_anim = this.add.sprite(this.player.x, this.player.y, 'player_blue_walk').setOrigin(0, 0);
+        this.blue_anim.play('blue_walk');
+        this.rainbow_anim = this.add.sprite(this.player.x, this.player.y, 'player_rainbow_glow').setOrigin(0, 0);
+        this.rainbow_anim.play('rainbow_glow');
+
         //makes it so player collides with platforms
         this.physics.add.collider(this.player, this.platforms);
 
@@ -177,6 +220,40 @@ class Play extends Phaser.Scene {
             this.background.tilePositionX += game.settings.obstacleSpeed;
             this.colorItemIcon.update();
             this.player.update();
+            // set animation color
+            if (this.player.color == red) {
+                this.red_anim.alpha = 1;
+                this.green_anim.alpha = 0;
+                this.blue_anim.alpha = 0;
+                this.rainbow_anim.alpha = 0;
+            }
+            if (this.player.color == green) {
+                this.red_anim.alpha = 0;
+                this.green_anim.alpha = 1;
+                this.blue_anim.alpha = 0;
+                this.rainbow_anim.alpha = 0;
+            }
+            if (this.player.color == blue) {
+                this.red_anim.alpha = 0;
+                this.green_anim.alpha = 0;
+                this.blue_anim.alpha = 1;
+                this.rainbow_anim.alpha = 0;
+            }
+            if (this.player.color == white) {
+                this.red_anim.alpha = 0;
+                this.green_anim.alpha = 0;
+                this.blue_anim.alpha = 0;
+                this.rainbow_anim.alpha = 1;
+            }
+            // update animation positions
+            this.red_anim.x = this.player.x;
+            this.red_anim.y = this.player.y;
+            this.green_anim.x = this.player.x;
+            this.green_anim.y = this.player.y;
+            this.blue_anim.x = this.player.x;
+            this.blue_anim.y = this.player.y;
+
+            // update obstacles
             this.obstacles.getChildren().forEach(function (obstacle) {
                 obstacle.update();
             }, this);
@@ -212,6 +289,11 @@ class Play extends Phaser.Scene {
             this.pointsTimer.remove();
             // stop increasing speed
             this.difficultyIncreaseEvent.remove();
+            // stop animations
+            this.red_anim.stop();
+            this.green_anim.stop();
+            this.blue_anim.stop();
+            this.rainbow_anim.stop();
             //SPACE to restart, W for menu
             if(Phaser.Input.Keyboard.JustDown(keySPACE)){
                 this.scene.restart();

@@ -9,16 +9,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.hasPickup = false;
     }
 
-    update() {       
-        //left/right movement (right now moves player but might move the obstacles/platforms instead later??)
-        // left/right dsabled for now (i dont think we want this in the final version?)
-        // if(keyLEFT.isDown) {
-            // this.setVelocityX(-160);
-        // } else if(keyRIGHT.isDown) {
-            // this.setVelocityX(160);
-        // } else {
-            // this.setVelocityX(0);
-        // }
+    update() { 
 
         //jumping
         if (Phaser.Input.Keyboard.JustDown(keySPACE) && this.body.touching.down) {
@@ -35,13 +26,13 @@ class Player extends Phaser.Physics.Arcade.Sprite {
                 this.color = this.prevColor;
                 switch(this.color) {
                     case red:
-                        this.setTexture('player_red');
+                        //this.setTexture('player_red');
                         break;
                     case blue:
-                        this.setTexture('player_blue');
+                        //this.setTexture('player_blue');
                         break;
                     case green:
-                        this.setTexture('player_green');
+                        //this.setTexture('player_green');
                         break;
                     default:
                         console.log("player pickup color setting failure");
@@ -53,15 +44,15 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         if(this.color != white) {
             if(Phaser.Input.Keyboard.JustDown(keyD) && this.color != blue) {
                 this.color = blue;
-                this.setTexture('player_blue');
+                //this.setTexture('player_blue');
             }
             if(Phaser.Input.Keyboard.JustDown(keyW) && this.color != green) {
                 this.color = green;
-                this.setTexture('player_green');
+                //this.setTexture('player_green');
             }
             if(Phaser.Input.Keyboard.JustDown(keyA) && this.color != red) {
                 this.color = red;
-                this.setTexture('player_red');
+                //this.setTexture('player_red');
             }
         }
     }
