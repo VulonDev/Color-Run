@@ -57,7 +57,7 @@ class Menu extends Phaser.Scene {
         menuConfig.fontSize = '24px';
         menuConfig.color = '#DD0000';
         menuConfig.fixedWidth = 250
-        this.add.text(165, 380, '> Swap colors to move through \n   obstacles', menuConfig).setOrigin(0.5);
+        this.add.text(165, 380, '> Swap colors to move \n   through obstacles', menuConfig).setOrigin(0.5);
         menuConfig.color = '#00DD00';
         this.add.text(165, 439, '> Jump to avoid obstacles \n   and grab powerups', menuConfig).setOrigin(0.5);
         menuConfig.color = '#0000DD';
