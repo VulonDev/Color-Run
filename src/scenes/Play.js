@@ -115,6 +115,9 @@ class Play extends Phaser.Scene {
         //jerry-rigged hack to try and get collecting point items to work
         collectPoint = false;
 
+        //varaible to see if obstaclea are already on screen
+        obstaclesOnScreen = false;
+
         //spawn an image to be the icon if a player has a pickup item
         this.colorItemIcon = new ColorIcon(this, 20, 50, 'color_item', 0);
 
@@ -129,7 +132,7 @@ class Play extends Phaser.Scene {
         this.colorItems = this.physics.add.group();
 
         //periodically spawns new obstacle
-        this.obstacleTimer = this.time.addEvent({ delay: game.settings.spawnSpeed *5, callback: this.createObstacleLayout, callbackScope: this, loop: true });
+        this.obstacleTimer = this.time.addEvent({ delay: game.settings.spawnSpeed *2, callback: this.createObstacleLayout, callbackScope: this, loop: true });
 
         //periodically has a chance of spawning a color item
         this.colorTimer = this.time.addEvent({ delay: game.settings.spawnSpeed, callback: this.createColorsItem, callbackScope: this, loop: true });
@@ -261,6 +264,12 @@ class Play extends Phaser.Scene {
 
             // update obstacles
             this.obstacles.getChildren().forEach(function (obstacle) {
+                if (obstacle.x > 0) {
+                    obstaclesOnScreen = true;
+                }
+                else {
+                    obstaclesOnScreen = false;
+                }
                 obstacle.update();
             }, this);
             this.pointItems.getChildren().forEach(function(item){
@@ -473,31 +482,31 @@ class Play extends Phaser.Scene {
 
     // call random obstacle layout function
     createObstacleLayout() {
-        this.type = Math.floor(Math.random() * 6);
-        switch (this.type) {
-            case 0:
-                this.createObstacleLayout0();
-                break;
-            case 1:
-                this.createObstacleLayout1();
-                break;
-            case 2:
-                this.createObstacleLayout2();
-                break;
-            case 3:
-                this.createObstacleLayout3();
-                break;
-            case 4:
-                this.createObstacleLayout4();
-                break;
-            case 5:
-                this.createObstacleLayout5();
-                break;
-            default:
-                console.log('create obstacle layout failure');
+        if (obstaclesOnScreen == false) {
+            this.type = Math.floor(Math.random() * 6);
+            switch (this.type) {
+                case 0:
+                    this.createObstacleLayout0();
+                    break;
+                case 1:
+                    this.createObstacleLayout1();
+                    break;
+                case 2:
+                    this.createObstacleLayout2();
+                    break;
+                case 3:
+                    this.createObstacleLayout3();
+                    break;
+                case 4:
+                    this.createObstacleLayout4();
+                    break;
+                case 5:
+                    this.createObstacleLayout5();
+                    break;
+                default:
+                    console.log('create obstacle layout failure');
+            }
         }
     }
-
-
 
 }
