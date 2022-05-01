@@ -21,22 +21,8 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             this.hasPickup = false;
             this.prevColor = this.color;
             this.color = white;
-            this.setTexture('player_rainbow');
             this.scene.time.delayedCall(this.pickupDuration, () => {
                 this.color = this.prevColor;
-                switch(this.color) {
-                    case red:
-                        //this.setTexture('player_red');
-                        break;
-                    case blue:
-                        //this.setTexture('player_blue');
-                        break;
-                    case green:
-                        //this.setTexture('player_green');
-                        break;
-                    default:
-                        console.log("player pickup color setting failure");
-                }
             }, null, this.scene);
         }
 

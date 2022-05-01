@@ -252,6 +252,8 @@ class Play extends Phaser.Scene {
             this.green_anim.y = this.player.y;
             this.blue_anim.x = this.player.x;
             this.blue_anim.y = this.player.y;
+            this.rainbow_anim.x = this.player.x;
+            this.rainbow_anim.y = this.player.y;
 
             // update obstacles
             this.obstacles.getChildren().forEach(function (obstacle) {
