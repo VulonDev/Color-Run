@@ -5,12 +5,9 @@ class Play extends Phaser.Scene {
 
     
     preload() {
+        // load assets
         this.load.image('background', './assets/background.png');
         this.load.image('ground', './assets/ground.png');
-        // this.load.image('player_red', './assets/player_red.png');
-        this.load.image('player_blue', './assets/player_blue.png');
-        this.load.image('player_green', './assets/player_green.png');
-        this.load.image('player_rainbow', './assets/player_rainbow .png');
         this.load.image('player', './assets/player.png');
         this.load.image('ob_red', './assets/obstacle_red.png');
         this.load.image('ob_red_h', './assets/obstacle_red_horiz.png');
@@ -30,12 +27,19 @@ class Play extends Phaser.Scene {
         this.load.spritesheet('player_green_walk', './assets/player_green.png', {frameWidth: 35, frameHeight: 35, startFrame: 0, endFrame: 1});
         this.load.spritesheet('player_blue_walk', './assets/player_blue.png', {frameWidth: 35, frameHeight: 35, startFrame: 0, endFrame: 1});
         this.load.spritesheet('player_rainbow_glow', './assets/player_rainbow .png', {frameWidth: 40, frameHeight: 40, startFrame: 0, endFrame: 2});
+
+        // load audio
+        this.load.audio('background_music', './assets/sfx/game_music.mp3');
     }
 
     create() {
 
         // scrolling tile sprite background
         this.background = this.add.tileSprite(0, 0, 640, 480, 'background').setOrigin(0, 0);
+
+        // background music
+        this.music = this.sound.add('background_music', { loop: true });
+        this.music.play();
 
         // player score
         this.score = 0;
@@ -44,7 +48,7 @@ class Play extends Phaser.Scene {
         let scoreConfig = {
             fontFamily: 'Impact',
             fontSize: '16px',
-            color: '#000000',
+            color: '#b3b3b3',
             align: 'left',
             padding: {
             top: 5,
@@ -125,7 +129,7 @@ class Play extends Phaser.Scene {
         this.colorItems = this.physics.add.group();
 
         //periodically spawns new obstacle
-        this.obstacleTimer = this.time.addEvent({ delay: game.settings.spawnSpeed *4, callback: this.createObstacleLayout, callbackScope: this, loop: true });
+        this.obstacleTimer = this.time.addEvent({ delay: game.settings.spawnSpeed *5, callback: this.createObstacleLayout, callbackScope: this, loop: true });
 
         //periodically has a chance of spawning a color item
         this.colorTimer = this.time.addEvent({ delay: game.settings.spawnSpeed, callback: this.createColorsItem, callbackScope: this, loop: true });
@@ -296,6 +300,8 @@ class Play extends Phaser.Scene {
             this.green_anim.stop();
             this.blue_anim.stop();
             this.rainbow_anim.stop();
+            //stop music
+            this.music.stop();
             //SPACE to restart, W for menu
             if(Phaser.Input.Keyboard.JustDown(keySPACE)){
                 this.scene.restart();
@@ -329,7 +335,6 @@ class Play extends Phaser.Scene {
     //creates a new object of random color and adds it to the obstacle group
     createVerticalObstacle(x, y) {
         this.type = Math.floor(Math.random() * 3);
-       // console.log(this.type);
         switch (this.type) {
             case 0:
                 this.obstacles.add(new Obstacle(this, x, y, 'ob_red', 0, red));
@@ -349,7 +354,6 @@ class Play extends Phaser.Scene {
     }
     createHorizObstacle(x, y) {
         this.type = Math.floor(Math.random() * 3);
-       // console.log(this.type);
         switch (this.type) {
             case 0:
                 this.obstacles.add(new Obstacle(this, x, y, 'ob_red_h', 0, red));
@@ -416,7 +420,6 @@ class Play extends Phaser.Scene {
         this.doSpawn = Math.floor(Math.random() * game.settings.colorSpawnChance);
 
         if(this.doSpawn == 0) {
-            console.log("spawning color item");
             this.colorItems.add(new ColorsItem(this, 650, 420, 'color_item', 0, white));
         }
     }
@@ -424,48 +427,48 @@ class Play extends Phaser.Scene {
     // obstacle layout functions 
     createObstacleLayout0() {
         this.createVerticalObstacle(720, 412);
-        this.createVerticalObstacle(925, 412);
-        this.createVerticalObstacle(1130, 412);
+        this.createVerticalObstacle(970, 412);
+        this.createVerticalObstacle(1220, 412);
     }
 
     createObstacleLayout1() {
         this.createVerticalObstacle(720, 412);
-        this.obstacles.add(new Obstacle(this, 925, 412, 'ob_black', 0, black));
-        this.createVerticalObstacle(1130, 412);
+        this.obstacles.add(new Obstacle(this, 970, 412, 'ob_black', 0, black));
+        this.createVerticalObstacle(1220, 412);
     }
 
     createObstacleLayout2() {
         this.createVerticalObstacle(720, 412);
         this.createVerticalObstacle(720, 362);
         this.createHorizObstacle(760, 433);
-        this.createHorizObstacle(830, 433);
+        this.createHorizObstacle(850, 433);
     }
 
     createObstacleLayout3() {
         this.createVerticalObstacle(720, 412);
         this.createVerticalObstacle(720, 362);
-        this.createVerticalObstacle(925, 412);
-        this.createVerticalObstacle(925, 362);
-        this.createVerticalObstacle(1130, 412);
-        this.createVerticalObstacle(1130, 362);
+        this.createVerticalObstacle(970, 412);
+        this.createVerticalObstacle(970, 362);
+        this.createVerticalObstacle(1220, 412);
+        this.createVerticalObstacle(1220, 362);
     }
 
     createObstacleLayout4(){
         this.createVerticalObstacle(720, 412);
         this.obstacles.add(new Obstacle(this, 720, 362, 'ob_black', 0, black));
-        this.createVerticalObstacle(925, 412);
-        this.obstacles.add(new Obstacle(this, 925, 362, 'ob_black', 0, black));
-        this.createVerticalObstacle(1130, 412);
-        this.obstacles.add(new Obstacle(this, 1130, 362, 'ob_black', 0, black));
+        this.createVerticalObstacle(970, 412);
+        this.obstacles.add(new Obstacle(this, 970, 362, 'ob_black', 0, black));
+        this.createVerticalObstacle(1220, 412);
+        this.obstacles.add(new Obstacle(this, 1220, 362, 'ob_black', 0, black));
     }
 
     createObstacleLayout5(){
         this.obstacles.add(new Obstacle(this, 720, 412, 'ob_black', 0, black));
         this.createVerticalObstacle(720, 362);
-        this.createVerticalObstacle(925, 412);
-        this.obstacles.add(new Obstacle(this, 925, 362, 'ob_black', 0, black));
-        this.obstacles.add(new Obstacle(this, 1130, 412, 'ob_black', 0, black));
-        this.createVerticalObstacle(1130, 362);
+        this.createVerticalObstacle(970, 412);
+        this.obstacles.add(new Obstacle(this, 970, 362, 'ob_black', 0, black));
+        this.obstacles.add(new Obstacle(this, 1220, 412, 'ob_black', 0, black));
+        this.createVerticalObstacle(1220, 362);
     }
 
     // call random obstacle layout function
