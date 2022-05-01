@@ -16,6 +16,7 @@ this.scene in player.js to reference the scene the player sprite is in.)
 let config = {
     type: Phaser.AUTO,
     width: 640,
+    backgroundColor: '#000000',
     height: 480,
     scene: [Menu, Play],
     physics: {

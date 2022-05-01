@@ -29,7 +29,7 @@ class Menu extends Phaser.Scene {
         this.titleText = this.add.text(game.config.width/2, 100, 'COLOR GAME', titleConfig).setOrigin(0.5);
 
         let menuConfig = {
-            fontFamily: 'BarlowCondensed-Regular',
+            fontFamily: 'Trebuchet MS',
             fontSize: '36px',
             color: '#000000',
             backgroundColor: '#DDDDDD',
@@ -54,14 +54,14 @@ class Menu extends Phaser.Scene {
         //How to Play text
         menuConfig.backgroundColor = '';
         menuConfig.align = 'left';
-        menuConfig.fontSize = '24px';
+        menuConfig.fontSize = '22px';
         menuConfig.color = '#DD0000';
-        menuConfig.fixedWidth = 250
+        menuConfig.fixedWidth = 275;
         this.add.text(165, 380, '> Swap colors to move \n   through obstacles', menuConfig).setOrigin(0.5);
         menuConfig.color = '#00DD00';
-        this.add.text(165, 439, '> Jump to avoid obstacles \n   and grab powerups', menuConfig).setOrigin(0.5);
+        this.add.text(165, 439, '> Jump to dodge obstacles \n   and grab items', menuConfig).setOrigin(0.5);
         menuConfig.color = '#0000DD';
-        this.add.text(165, 500, '> Stay alive and grab point \n   items to increase your score', menuConfig).setOrigin(0.5);
+        this.add.text(165, 500, '> Stay alive to increase \n  your score', menuConfig).setOrigin(0.5);
 
         //Controls text (I could not find a better way to do this >_>)
         menuConfig.color = '#000000'
