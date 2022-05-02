@@ -36,17 +36,14 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             if(Phaser.Input.Keyboard.JustDown(keyD) && this.color != blue) {
                 this.color = blue;
                 this.colorswapSFX.play();
-                //this.setTexture('player_blue');
             }
             if(Phaser.Input.Keyboard.JustDown(keyW) && this.color != green) {
                 this.color = green;
                 this.colorswapSFX.play();
-                //this.setTexture('player_green');
             }
             if(Phaser.Input.Keyboard.JustDown(keyA) && this.color != red) {
                 this.color = red;
                 this.colorswapSFX.play();
-                //this.setTexture('player_red');
             }
         }
     }

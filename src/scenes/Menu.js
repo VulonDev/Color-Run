@@ -73,7 +73,7 @@ class Menu extends Phaser.Scene {
         menuConfig.color = '#0000DD';
         this.add.text(165, 500, '> Stay alive to increase \n  your score', menuConfig).setOrigin(0.5);
 
-        //Controls text (I could not find a better way to do this >_>)
+        //Controls text
         menuConfig.color = '#000000'
         this.add.text(475, 380, '>', menuConfig).setOrigin(0.5);
         menuConfig.color = '#00DD00'

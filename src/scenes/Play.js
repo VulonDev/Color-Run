@@ -28,7 +28,7 @@ class Play extends Phaser.Scene {
         this.load.spritesheet('player_blue_walk', './assets/player_blue.png', {frameWidth: 35, frameHeight: 35, startFrame: 0, endFrame: 1});
         this.load.spritesheet('player_rainbow_glow', './assets/player_rainbow .png', {frameWidth: 40, frameHeight: 40, startFrame: 0, endFrame: 2});
 
-        // load audio
+        // load game music
         this.load.audio('background_music', './assets/sfx/game_music.mp3');
     }
 
@@ -41,7 +41,7 @@ class Play extends Phaser.Scene {
         this.music = this.sound.add('background_music', { loop: true });
         this.music.play();
 
-        //sfx
+        // sfx
         this.menuselectSFX = this.sound.add('menu_select');
         itemcollectSFX = this.sound.add('item_collect');
         gameoverSFX = this.sound.add('lose');
@@ -76,6 +76,7 @@ class Play extends Phaser.Scene {
         //player character
         this.player = new Player(this, 100, 400, 'player', 0, red).setOrigin(0, 0);
         this.player.alpha = 0;
+
         // create animations
         this.anims.create({
             key: 'red_walk',
@@ -117,10 +118,10 @@ class Play extends Phaser.Scene {
         //game over flag (made gameover a global var so it can accessed by collider function)
         gameOver = false;
 
-        //jerry-rigged hack to try and get collecting point items to work
+        //checks if point item is being collected
         collectPoint = false;
 
-        //varaible to see if obstaclea are already on screen
+        //varaible to see if obstacles are already on screen
         obstaclesOnScreen = false;
 
         //spawn an image to be the icon if a player has a pickup item
@@ -135,9 +136,6 @@ class Play extends Phaser.Scene {
 
         //group for storing all current color items on screen
         this.colorItems = this.physics.add.group();
-
-        //periodically spawns new obstacle
-        //this.obstacleTimer = this.time.addEvent({ delay: game.settings.spawnSpeed *2, callback: this.createObstacleLayout, callbackScope: this, loop: true });
 
         //periodically has a chance of spawning a color item
         this.colorTimer = this.time.addEvent({ delay: game.settings.spawnSpeed, callback: this.createColorsItem, callbackScope: this, loop: true });
@@ -231,9 +229,13 @@ class Play extends Phaser.Scene {
 
         //update currently living sprites while game isn't over
         if(!gameOver) {
-            this.createObstacleLayout();
+            // scrolling background
             this.background.tilePositionX += game.settings.obstacleSpeed;
+            // create obstacle layout once previous obstacle reaches other side of screen
+            this.createObstacleLayout();
+            // display for color item icon underneath score
             this.colorItemIcon.update();
+            // player position/color update
             this.player.update();
             // set animation color
             this.animationUpdate();
@@ -257,18 +259,21 @@ class Play extends Phaser.Scene {
                 }
                 obstacle.update();
             }, this);
+            // update points items
             this.pointItems.getChildren().forEach(function(item){
                 item.update();
             }, this);
             this.colorItems.getChildren().forEach(function(item){
                 item.update();
             }, this);
+            // add points to score and play sfx when points item is collected
             if(collectPoint) {
                 this.score += game.settings.pickupPoints;
                 this.scoreText.text = "Score: " + this.score.toString();
                 itemcollectSFX.play();
                 collectPoint = false;
             }
+            // display points item underneath points
             if(this.player.hasPickup) {
                 this.colorItemIcon.setAlpha(1);
             }
@@ -330,7 +335,7 @@ class Play extends Phaser.Scene {
         this.scoreText.text = "Score: "+(this.score.toString());
     }
 
-    //creates a new object of random color and adds it to the obstacle group
+    //creates a new obstacle object of random color and adds it to the obstacle group
     createVerticalObstacle(x, y) {
         this.type = Math.floor(Math.random() * 3);
         switch (this.type) {
