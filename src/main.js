@@ -42,6 +42,7 @@ let gameOver = false;
 let collectPoint = false;
 let obstaclesOnScreen = false;
 let itemcollectSFX;
+let gameoverSFX;
 
 //reserve keyboard
 let keyW, keyA, keyS, keyD, keySPACE, keyLEFT, keyRIGHT, keyUP;

@@ -44,6 +44,7 @@ class Play extends Phaser.Scene {
         //sfx
         this.menuselectSFX = this.sound.add('menu_select');
         itemcollectSFX = this.sound.add('item_collect');
+        gameoverSFX = this.sound.add('lose');
 
         // player score
         this.score = 0;
@@ -157,9 +158,10 @@ class Play extends Phaser.Scene {
                 //dont need to do anything
                 return;
             }
-            else {
+            else if (gameOver == false) {
                 //colors were diff so set gameover = true
                 gameOver = true;
+                gameoverSFX.play();
             }
         });
 

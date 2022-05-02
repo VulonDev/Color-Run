@@ -11,6 +11,7 @@ class Menu extends Phaser.Scene {
         this.load.audio('jump', './assets/sfx/jump.wav');
         this.load.audio('item_collect', './assets/sfx/item_pickup.wav');
         this.load.audio('menu_select', './assets/sfx/menu_select.wav');
+        this.load.audio('lose', './assets/sfx/lose.wav');
     }
 
     create() {
