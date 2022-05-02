@@ -36,7 +36,7 @@ class Menu extends Phaser.Scene {
             stroke: '#ffffff',
             strokeThickness: 12
         }
-        this.titleText = this.add.text(game.config.width/2, 100, 'COLOR GAME', titleConfig).setOrigin(0.5);
+        this.titleText = this.add.text(game.config.width/2, 100, 'COLOR RUN', titleConfig).setOrigin(0.5);
 
         let menuConfig = {
             fontFamily: 'Trebuchet MS',
