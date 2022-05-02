@@ -4,10 +4,18 @@ class Menu extends Phaser.Scene {
     }
 
     preload() {
-
+        //sfx
+        this.load.audio('menu_select', './assets/sfx/menu_select.wav');
+        this.load.audio('activate_powerup', './assets/sfx/activate_powerup.wav');
+        this.load.audio('color_swap', './assets/sfx/color_swap.wav');
+        this.load.audio('jump', './assets/sfx/jump.wav');
+        this.load.audio('menu_select', './assets/sfx/menu_select.wav');
     }
 
     create() {
+        //sfx
+        this.menuselectSFX = this.sound.add('menu_select');
+
         //used for creating rainbow effect on title text
         this.colorVar = 0;
         this.colorWheel = Phaser.Display.Color.HSVColorWheel();
@@ -77,7 +85,7 @@ class Menu extends Phaser.Scene {
         menuConfig.color = '#0000DD'
         this.add.text(550, 380, ' D ', menuConfig).setOrigin(0.5);
         menuConfig.color = '#000000'
-        this.add.text(565, 380, ' to swap colors', menuConfig).setOrigin(0.5);
+        this.add.text(567, 380, ' to swap colors', menuConfig).setOrigin(0.5);
         this.add.text(475, 439, '> SPACE to jump', menuConfig).setOrigin(0.5);
         this.add.text(475, 500, '> S to use powerup', menuConfig).setOrigin(0.5);
 
@@ -96,6 +104,7 @@ class Menu extends Phaser.Scene {
 
         //start game when spacebar pressed
         if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
+            this.menuselectSFX.play();
             this.scene.start("playScene");
         }
     }

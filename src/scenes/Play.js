@@ -41,6 +41,9 @@ class Play extends Phaser.Scene {
         this.music = this.sound.add('background_music', { loop: true });
         this.music.play();
 
+        //sfx
+        this.menuselectSFX = this.sound.add('menu_select');
+
         // player score
         this.score = 0;
 
@@ -314,9 +317,11 @@ class Play extends Phaser.Scene {
             this.music.stop();
             //SPACE to restart, W for menu
             if(Phaser.Input.Keyboard.JustDown(keySPACE)){
+                this.menuselectSFX.play();
                 this.scene.restart();
             }
             if(Phaser.Input.Keyboard.JustDown(keyW)) {
+                this.menuselectSFX.play();
                 this.scene.start("menuScene");
             }
         }
