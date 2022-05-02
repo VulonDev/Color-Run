@@ -132,7 +132,7 @@ class Play extends Phaser.Scene {
         this.colorItems = this.physics.add.group();
 
         //periodically spawns new obstacle
-        this.obstacleTimer = this.time.addEvent({ delay: game.settings.spawnSpeed *2, callback: this.createObstacleLayout, callbackScope: this, loop: true });
+        //this.obstacleTimer = this.time.addEvent({ delay: game.settings.spawnSpeed *2, callback: this.createObstacleLayout, callbackScope: this, loop: true });
 
         //periodically has a chance of spawning a color item
         this.colorTimer = this.time.addEvent({ delay: game.settings.spawnSpeed, callback: this.createColorsItem, callbackScope: this, loop: true });
@@ -224,6 +224,7 @@ class Play extends Phaser.Scene {
 
         //update currently living sprites while game isn't over
         if(!gameOver) {
+            this.createObstacleLayout();
             this.background.tilePositionX += game.settings.obstacleSpeed;
             this.colorItemIcon.update();
             this.player.update();
@@ -298,7 +299,7 @@ class Play extends Phaser.Scene {
             //stop increasing score
             this.scoreIncreaseEvent.remove();
             //stop spawning new obstacles
-            this.obstacleTimer.remove();
+            //this.obstacleTimer.remove();
             //stop spawing new collectibles
             this.colorTimer.remove();
             this.pointsTimer.remove();
