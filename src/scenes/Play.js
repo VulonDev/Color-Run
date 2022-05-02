@@ -236,30 +236,7 @@ class Play extends Phaser.Scene {
             this.colorItemIcon.update();
             this.player.update();
             // set animation color
-            if (this.player.color == red) {
-                this.red_anim.alpha = 1;
-                this.green_anim.alpha = 0;
-                this.blue_anim.alpha = 0;
-                this.rainbow_anim.alpha = 0;
-            }
-            if (this.player.color == green) {
-                this.red_anim.alpha = 0;
-                this.green_anim.alpha = 1;
-                this.blue_anim.alpha = 0;
-                this.rainbow_anim.alpha = 0;
-            }
-            if (this.player.color == blue) {
-                this.red_anim.alpha = 0;
-                this.green_anim.alpha = 0;
-                this.blue_anim.alpha = 1;
-                this.rainbow_anim.alpha = 0;
-            }
-            if (this.player.color == white) {
-                this.red_anim.alpha = 0;
-                this.green_anim.alpha = 0;
-                this.blue_anim.alpha = 0;
-                this.rainbow_anim.alpha = 1;
-            }
+            this.animationUpdate();
             // update animation positions
             this.red_anim.x = this.player.x;
             this.red_anim.y = this.player.y;
@@ -314,6 +291,7 @@ class Play extends Phaser.Scene {
             // stop increasing speed
             this.difficultyIncreaseEvent.remove();
             // stop animations
+            this.animationUpdate();
             this.red_anim.stop();
             this.green_anim.stop();
             this.blue_anim.stop();
@@ -441,6 +419,34 @@ class Play extends Phaser.Scene {
 
         if(this.doSpawn == 0) {
             this.colorItems.add(new ColorsItem(this, 650, 420, 'color_item', 0, white));
+        }
+    }
+
+    // animation uppdate function
+    animationUpdate() {
+        if (this.player.color == red) {
+            this.red_anim.alpha = 1;
+            this.green_anim.alpha = 0;
+            this.blue_anim.alpha = 0;
+            this.rainbow_anim.alpha = 0;
+        }
+        if (this.player.color == green) {
+            this.red_anim.alpha = 0;
+            this.green_anim.alpha = 1;
+            this.blue_anim.alpha = 0;
+            this.rainbow_anim.alpha = 0;
+        }
+        if (this.player.color == blue) {
+            this.red_anim.alpha = 0;
+            this.green_anim.alpha = 0;
+            this.blue_anim.alpha = 1;
+            this.rainbow_anim.alpha = 0;
+        }
+        if (this.player.color == white) {
+            this.red_anim.alpha = 0;
+            this.green_anim.alpha = 0;
+            this.blue_anim.alpha = 0;
+            this.rainbow_anim.alpha = 1;
         }
     }
 
