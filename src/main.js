@@ -19,10 +19,6 @@ let config = {
     backgroundColor: '#000000',
     height: 480,
     scene: [Menu, Play],
-    fps: {
-        target: 120,
-        forceSetTimeOut: true
-    },
     physics: {
         default: 'arcade',
         arcade: {
