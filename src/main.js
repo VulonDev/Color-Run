@@ -37,9 +37,11 @@ let blue = 2;
 let red = 3;
 let green = 4;
 
+// global variables
 let gameOver = false;
 let collectPoint = false;
 let obstaclesOnScreen = false;
+let itemcollectSFX;
 
 //reserve keyboard
 let keyW, keyA, keyS, keyD, keySPACE, keyLEFT, keyRIGHT, keyUP;

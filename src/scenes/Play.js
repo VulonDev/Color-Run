@@ -43,6 +43,7 @@ class Play extends Phaser.Scene {
 
         //sfx
         this.menuselectSFX = this.sound.add('menu_select');
+        itemcollectSFX = this.sound.add('item_collect');
 
         // player score
         this.score = 0;
@@ -179,6 +180,7 @@ class Play extends Phaser.Scene {
             }
             else {
                 item.destroy();
+                itemcollectSFX.play();
                 player.hasPickup = true;
             }
         });
@@ -285,6 +287,7 @@ class Play extends Phaser.Scene {
             if(collectPoint) {
                 this.score += game.settings.pickupPoints;
                 this.scoreText.text = "Score: " + this.score.toString();
+                itemcollectSFX.play();
                 collectPoint = false;
             }
             if(this.player.hasPickup) {
