@@ -21,6 +21,7 @@ class Play extends Phaser.Scene {
         this.load.image('pt_red', './assets/points_red.png');
         this.load.image('pt_green', './assets/points_green.png');
         this.load.image('color_item', './assets/item_color.png');
+        this.load.image('menu_wasd', './assets/menu_wasd.png');
 
         // load sprite sheet animations
         this.load.spritesheet('player_red_walk', './assets/player_red.png', {frameWidth: 35, frameHeight: 35, startFrame: 0, endFrame: 1});
@@ -125,7 +126,9 @@ class Play extends Phaser.Scene {
         obstaclesOnScreen = false;
 
         //spawn an image to be the icon if a player has a pickup item
-        this.colorItemIcon = new ColorIcon(this, 20, 50, 'color_item', 0);
+        this.colorItemIcon = new ColorIcon(this, 42 , 109, 'color_item', 0);
+        //wasd item reminder image
+        this.wasdIcon = new ColorIcon(this, 45, 70, 'menu_wasd', 0);
 
         //group for storing all current color obstacles on screen
         this.obstacles = this.physics.add.group();
@@ -221,7 +224,7 @@ class Play extends Phaser.Scene {
             },
             fixedWidth: 500
         }
-        this.gameOverText = this.add.text(game.config.width/10, game.config.height/2, '', textConfig);
+        this.gameOverText = this.add.text(game.config.width/10, game.config.height/2 - 50, '', textConfig);
 
     }
 
@@ -235,6 +238,7 @@ class Play extends Phaser.Scene {
             this.createObstacleLayout();
             // display for color item icon underneath score
             this.colorItemIcon.update();
+            this.wasdIcon.update();
             // player position/color update
             this.player.update();
             // set animation color
@@ -285,7 +289,7 @@ class Play extends Phaser.Scene {
         //now display game over screen and listen for restart
         else {
             //game over text
-            this.gameOverText.text = 'GAME OVER \n SPACE to restart or W for menu';
+            this.gameOverText.text = 'GAME OVER\nSCORE: ' + this.score.toString() + "\nSPACE to restart or W for menu";
             //stop increasing score
             this.scoreIncreaseEvent.remove();
             //stop spawning new obstacles
